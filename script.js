@@ -10,9 +10,10 @@ async function fetchTargetWord() {
         const data = await response.json();
         TARGET_WORD = data.word.toUpperCase();
         if (TARGET_WORD.length !== 5) throw new Error('Received word is not 5 letters.');
+        console.log('Target word:', TARGET_WORD);
     } catch (error) {
         console.error('Failed to fetch the target word:', error);
-        showMessage('Failed to load the target word. Please try again later.');
+        showMessage('Failed to load the target word. Please try again later.', 'red');
     }
 }
 
@@ -24,7 +25,7 @@ async function validateWord(word) {
         return data.isValid;
     } catch (error) {
         console.error('Failed to validate the word:', error);
-        showMessage('Failed to validate the word. Please try again later.');
+        showMessage('Failed to validate the word. Please try again later.', 'red');
         return false;
     }
 }
@@ -34,18 +35,18 @@ async function handleGuess() {
     const messageElement = document.getElementById('message');
 
     if (guess.length !== 5) {
-        showMessage('Guess must be 5 letters!');
+        showMessage('Guess must be 5 letters!', 'red');
         return;
     }
 
     if (submittedGuesses.has(guess)) {
-        showMessage('You already guessed that word!');
+        showMessage('You already guessed that word!', 'red');
         return;
     }
 
     const isValid = await validateWord(guess);
     if (!isValid) {
-        showMessage('Invalid word! Please try a different word.');
+        showMessage('Invalid word! Please try a different word.', 'red');
         return;
     }
 
@@ -54,11 +55,11 @@ async function handleGuess() {
     checkGuess(guess);
 
     if (guess === TARGET_WORD) {
-        showMessage('Congratulations! You guessed the word!');
+        showMessage('Congratulations! You guessed the word!', 'green');
         document.getElementById('submit-guess').disabled = true;
         setTimeout(restartGame, 5500); 
     } else if (attempts >= MAX_ATTEMPTS) {
-        showMessage(`Sorry, you've used all attempts. The word was ${TARGET_WORD}.`);
+        showMessage(`Sorry, you've used all attempts. The word was ${TARGET_WORD}.`, 'red');
         document.getElementById('submit-guess').disabled = true;
         setTimeout(restartGame, 5500); 
     }
@@ -66,13 +67,13 @@ async function handleGuess() {
     document.getElementById('guess-input').value = '';
 }
 
-function showMessage(message) {
+function showMessage(message, color) {
     const messageElement = document.getElementById('message');
     const guessInput = document.getElementById('guess-input');
 
     messageElement.textContent = message;
+    messageElement.style.color = color; // Set the text color
     guessInput.value = ''; 
-
 
     setTimeout(() => {
         messageElement.textContent = '';
@@ -138,3 +139,4 @@ function initializeGame() {
 }
 
 initializeGame();
+
