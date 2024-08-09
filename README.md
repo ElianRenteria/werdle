@@ -1,5 +1,4 @@
 
-<h1>Wordle Clone</h1>
 # Wordle Clone
 
 This is a simple clone of the popular game Wordle, built using HTML, CSS, and JavaScript. The goal of this project is to provide a basic implementation of Wordle for educational purposes and to showcase my skills in front-end web development.
