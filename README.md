@@ -19,7 +19,7 @@ You can play the game [here](https://coderlab.work/wordle).
 
 ## Credits
 
-This project is inspired by the original Wordle game created by Jonathan Feinberg. You can play the original Wordle game [here](https://www.powerlanguage.co.uk/wordle/).
+This project is inspired by the original Wordle game created by Jonathan Feinberg. You can play the original Wordle game [here](https://www.nytimes.com/games/wordle/index.html).
 
 ## Installation
 
