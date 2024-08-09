@@ -4,7 +4,7 @@ let attempts = 0;
 
 async function fetchTargetWord() {
     try {
-        const response = await fetch(WORDLE_API_URL);
+        const response = await fetch(WORDLE_API_URL); 
         if (!response.ok) throw new Error('Network response was not ok.');
         const data = await response.json();
         TARGET_WORD = data.word.toUpperCase();
@@ -15,17 +15,35 @@ async function fetchTargetWord() {
     }
 }
 
-async function initializeGame() {
-    await fetchTargetWord();
-    document.getElementById('submit-guess').addEventListener('click', handleGuess);
-    document.getElementById('guess-input').addEventListener('keydown', (event) => {
-        if (event.key === 'Enter') {
-            event.preventDefault();
-            handleGuess();
-        }
+function initializeGame() {
+    createEmptyGrid();
+    fetchTargetWord().then(() => {
+        document.getElementById('submit-guess').addEventListener('click', handleGuess);
+        document.getElementById('guess-input').addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                handleGuess();
+            }
+        });
     });
 }
 
+function createEmptyGrid() {
+    const wordGrid = document.getElementById('word-grid');
+    wordGrid.innerHTML = ''; 
+    for (let i = 0; i < MAX_ATTEMPTS; i++) {
+        const guessRow = document.createElement('div');
+        guessRow.classList.add('guess-row');
+
+        for (let j = 0; j < 5; j++) {
+            const letterCell = document.createElement('div');
+            letterCell.classList.add('guess-cell');
+            guessRow.appendChild(letterCell);
+        }
+
+        wordGrid.appendChild(guessRow);
+    }
+}
 
 function handleGuess() {
     const guess = document.getElementById('guess-input').value.toUpperCase();
@@ -48,15 +66,13 @@ function handleGuess() {
     document.getElementById('guess-input').value = '';
 }
 
-
 function checkGuess(guess) {
     const wordGrid = document.getElementById('word-grid');
-    const guessRow = document.createElement('div');
-    guessRow.classList.add('guess-row');
+    const guessRows = wordGrid.getElementsByClassName('guess-row');
+    const guessRow = guessRows[attempts - 1]; 
 
     for (let i = 0; i < 5; i++) {
-        const letterCell = document.createElement('div');
-        letterCell.classList.add('guess-cell');
+        const letterCell = guessRow.children[i];
         letterCell.textContent = guess[i];
 
         if (guess[i] === TARGET_WORD[i]) {
@@ -66,13 +82,7 @@ function checkGuess(guess) {
         } else {
             letterCell.style.backgroundColor = 'gray';
         }
-
-        guessRow.appendChild(letterCell);
     }
-
-    wordGrid.appendChild(guessRow);
 }
 
-
 initializeGame();
-
