@@ -83,7 +83,10 @@ button:disabled {
 }
 
 
-p {
+#message {
     font-size: 1.2em;
     font-weight: bold;
+    padding: 3px;
+    margin-bottom: 1%;
+    color: rgb(255, 57, 57);
 }
