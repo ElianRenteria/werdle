@@ -9,7 +9,7 @@ Wordle is a word puzzle game where players have to guess a hidden five-letter wo
 
 ## Live Demo
 
-You can play the game [here](https://coderlab.work/wordle).
+You can play the game [here](https://coderlab.work/werdle).
 
 ## Features
 
